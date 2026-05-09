@@ -64,10 +64,10 @@ export default async function CommunityDashboard({ searchParams }: { searchParam
           
           <div className="relative z-10 flex-shrink-0 w-full md:w-auto">
             <Link 
-              href="/dashboard/citizen" 
+              href={session ? "/dashboard/citizen" : "/login"} 
               className="group relative inline-flex items-center justify-center gap-3 w-full md:w-auto px-8 py-4 bg-white text-black font-bold rounded-xl hover:bg-indigo-50 transition-all shadow-[0_0_40px_rgba(99,102,241,0.3)] hover:shadow-[0_0_60px_rgba(99,102,241,0.5)]"
             >
-              <span className="text-base">Report a New Issue</span>
+              <span className="text-base">{session ? "Report a New Issue" : "Sign in to Report"}</span>
             </Link>
           </div>
         </div>

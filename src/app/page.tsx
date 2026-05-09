@@ -24,13 +24,21 @@ export default function Home() {
           <a href="#how-it-works" className="hidden md:block text-sm text-gray-400 hover:text-white transition-colors">How it Works</a>
           <a href="#features" className="hidden md:block text-sm text-gray-400 hover:text-white transition-colors">Features</a>
           {session ? (
-            <Link href="/dashboard" className="px-5 py-2 text-sm font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 rounded-full transition-all shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40">
-              Open Dashboard
-            </Link>
+            <div className="flex items-center gap-4">
+              <span className="text-xs text-gray-500 font-medium hidden lg:block">Logged in as {(session.user as any).role}</span>
+              <Link href="/dashboard" className="px-5 py-2 text-sm font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 rounded-full transition-all shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40">
+                My Dashboard
+              </Link>
+            </div>
           ) : (
-            <Link href="/login" className="px-5 py-2 text-sm font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 rounded-full transition-all shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40">
-              Get Started
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link href="/register" className="px-4 py-2 text-sm text-gray-400 hover:text-white transition-colors">
+                Register
+              </Link>
+              <Link href="/login" className="px-5 py-2 text-sm font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 rounded-full transition-all shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40">
+                Sign In
+              </Link>
+            </div>
           )}
         </div>
       </nav>
@@ -52,13 +60,13 @@ export default function Home() {
           Submit complaints with photos and location. Our AI auto-categorizes, assigns the right department, and tracks resolution — all in real time.
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center gap-4">
-          <Link href="/login" className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold rounded-2xl transition-all shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.02] text-lg">
-            Get Started — It&apos;s Free
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 w-full max-w-4xl">
+          <Link
+            href="/dashboard/community"
+            className="group relative flex items-center justify-center gap-3 w-full sm:w-auto px-10 py-5 bg-white/[0.03] border border-white/10 text-white font-bold rounded-2xl hover:bg-white/[0.08] transition-all"
+          >
+            <span className="text-lg">See All Complaints</span>
           </Link>
-          <a href="#how-it-works" className="px-8 py-4 bg-white/5 text-white font-semibold rounded-2xl border border-white/10 hover:bg-white/10 transition-all text-lg">
-            See How It Works
-          </a>
         </div>
 
         {/* Trust signals */}

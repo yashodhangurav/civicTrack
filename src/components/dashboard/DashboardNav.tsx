@@ -21,13 +21,21 @@ export default function DashboardNav({ role }: { role: string }) {
     ADMIN: "bg-purple-500/20 text-purple-400",
   };
 
-  return (
-    <nav className="flex items-center justify-between px-6 md:px-8 py-4 border-b border-white/5 bg-black/50 backdrop-blur-xl sticky top-0 z-50">
-      <div className="flex items-center gap-4">
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center font-bold text-sm shadow-lg shadow-indigo-500/20">C</div>
-          <span className="text-base font-bold tracking-tight hidden sm:block">CivicTrack</span>
-        </Link>
+    const dashboardPath: Record<string, string> = {
+      ADMIN: "/dashboard/admin",
+      SUPERVISOR: "/dashboard/supervisor",
+      OFFICER: "/dashboard/worker",
+      CITIZEN: "/dashboard/community",
+    };
+    const homePath = dashboardPath[role] || "/";
+
+    return (
+      <nav className="flex items-center justify-between px-6 md:px-8 py-4 border-b border-white/5 bg-black/50 backdrop-blur-xl sticky top-0 z-50">
+        <div className="flex items-center gap-4">
+          <Link href={homePath} className="flex items-center gap-2 group">
+            <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center font-bold text-sm shadow-lg shadow-indigo-500/20">C</div>
+            <span className="text-base font-bold tracking-tight hidden sm:block">CivicTrack</span>
+          </Link>
         <div className="w-px h-6 bg-white/10 hidden sm:block" />
         <span className={`px-2.5 py-1 rounded-lg text-xs font-bold ${roleColor[role] || "bg-white/10 text-gray-400"}`}>
           {roleLabel[role] || role}

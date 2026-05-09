@@ -26,7 +26,8 @@ export default function LoginPage() {
       setError("Invalid email or password. Please try again.");
       setLoading(false);
     } else {
-      router.push("/dashboard");
+      // The /dashboard route will handle role-based redirection
+      window.location.href = "/dashboard";
     }
   };
 
@@ -42,7 +43,7 @@ export default function LoginPage() {
       setError("Demo login failed. Ensure seed data exists.");
       setLoading(false);
     } else {
-      router.push("/dashboard");
+      window.location.href = "/dashboard";
     }
   };
 
@@ -117,6 +118,10 @@ export default function LoginPage() {
               ))}
             </div>
           </div>
+
+          <p className="text-center text-sm text-gray-500 mt-4">
+            Don&apos;t have an account? <Link href="/register" className="text-indigo-400 hover:underline">Create one</Link>
+          </p>
         </form>
       </div>
     </div>
