@@ -1,0 +1,127 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 String      @id @default(auto()) @map("_id") @db.ObjectId
+  name               String
+  email              String      @unique
+  phone              String?
+  role               Role        @default(CITIZEN)
+  passwordHash       String
+  complaints         Complaint[] @relation("UserComplaints")
+  assignedComplaints Complaint[] @relation("AssignedComplaints")
+  logs               Log[]
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+}
+
+enum Role {
+  CITIZEN
+  OFFICER
+  SUPERVISOR
+  ADMIN
+}
+
+model Department {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  name        String      @unique
+  contactInfo String?
+  complaints  Complaint[]
+}
+
+model Category {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  name       String      @unique
+  slaHours   Int         @default(72)
+  complaints Complaint[]
+}
+
+model Status {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  name       String      @unique
+  complaints Complaint[]
+}
+
+model Location {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  latitude   Float
+  longitude  Float
+  address    String?
+  complaints Complaint[]
+}
+
+model Complaint {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  description String
+  priority    Priority   @default(MEDIUM)
+  isAnonymous Boolean    @default(false)
+  
+  userId      String?    @db.ObjectId
+  user        User?      @relation("UserComplaints", fields: [userId], references: [id])
+  
+  assignedToId String?   @db.ObjectId
+  assignedTo   User?     @relation("AssignedComplaints", fields: [assignedToId], references: [id])
+  
+  categoryId  String     @db.ObjectId
+  category    Category   @relation(fields: [categoryId], references: [id])
+  
+  deptId      String     @db.ObjectId
+  department  Department @relation(fields: [deptId], references: [id])
+  
+  statusId    String     @db.ObjectId
+  status      Status     @relation(fields: [statusId], references: [id])
+  
+  locationId  String     @db.ObjectId
+  location    Location   @relation(fields: [locationId], references: [id])
+  
+  media       Media[]
+  logs        Log[]
+  
+  resolvedAt      DateTime?
+  dueDate         DateTime?
+  citizenRating   Int?
+  citizenFeedback String?
+  isEscalated     Boolean    @default(false)
+  upvoterIds      String[]   @db.ObjectId
+  
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+model Media {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  url         String
+  mediaType   String
+  
+  complaintId String    @db.ObjectId
+  complaint   Complaint @relation(fields: [complaintId], references: [id])
+  
+  createdAt   DateTime  @default(now())
+}
+
+model Log {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  message     String
+  isPublic    Boolean   @default(false)
+  
+  userId      String?   @db.ObjectId
+  user        User?     @relation(fields: [userId], references: [id])
+  
+  complaintId String    @db.ObjectId
+  complaint   Complaint @relation(fields: [complaintId], references: [id])
+  
+  timestamp   DateTime  @default(now())
+}
